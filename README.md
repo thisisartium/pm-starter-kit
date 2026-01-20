@@ -1,4 +1,4 @@
-# PM Agent Planning Starter (with Codex Skills)
+# PM Starter Kit
 
 A lightweight, repo-native workflow for turning research and discovery (including LLM conversations)
 into **versioned planning artifacts** that a coding agent (for example OpenAI Codex) can reliably execute.
