@@ -1,17 +1,3 @@
-Great—this is a solid **skill specification format**. We’ll follow the same structure for the **Feature Intent Parser skill**.
-
-I’ll keep it aligned with the behavior we defined earlier:
-
-* Requires **Acceptance Criteria**
-* Extracts **systems, services, entities, events, UI, backend actions**
-* Produces **structured signals** for downstream skills
-* Stops **before repo analysis** (that happens in later skills)
-
-Below is the **MD file** for Skill #1.
-
----
-
-```md
 ---
 name: feature-intent-parser
 description: Convert a PM's feature description and REQUIRED acceptance criteria into structured technical signals (systems, services, entities, UI components, backend actions, and events). Use when preparing a new vertically sliced feature for dependency and impact analysis.
@@ -329,6 +315,3 @@ The output of this skill is the **Technical Intent Model**, which will be passed
 4. Impact Analysis
 5. Risk Detection
 
-```
-
----
