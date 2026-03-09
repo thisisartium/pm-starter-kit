@@ -69,6 +69,23 @@ You can also just ask in plain language and Codex may choose the right skill aut
 2. Run `$validate-planning-inbox` to check formatting and invariants.
 3. In a manual planning session, compile selected inbox entries into `planning/compiled/`.
 
+## PM Agent System (omp)
+
+This repo ships a ready-to-use PM agent setup for **[oh-my-pi (omp)](https://github.com/can1357/oh-my-pi)** — an AI terminal assistant that works with Claude, Gemini, GPT-4o, and others.
+
+Includes agents, slash commands, and skills for writing ADO user stories, features, and epics — tuned for product managers.
+
+**Quick install:**
+```bash
+./install.sh
+```
+
+Then restart omp and type `/` to see your PM commands.
+
+→ [Full setup guide and usage examples](omp/README.md)
+
+---
+
 ## License
 
 Choose a license before sharing widely (MIT is common for templates). See `LICENSE`.
