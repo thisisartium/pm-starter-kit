@@ -1,9 +1,9 @@
 ---
 name: review-story
-description: Review an existing ADO user story for quality, then rewrite it.
+description: Review an existing user story for quality, then rewrite it.
 ---
 
-Review the ADO user story the user pastes. If they haven't pasted one yet, ask them to.
+Review the user story the user pastes. If they haven't pasted one yet, ask them to.
 
 Once you have the story, produce three things:
 

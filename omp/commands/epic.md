@@ -1,9 +1,9 @@
 ---
 name: epic
-description: Plan an ADO epic — hypothesis, feature decomposition, story map, and phased delivery.
+description: Plan an epic — hypothesis, feature decomposition, story map, and phased delivery.
 ---
 
-Plan an ADO Epic for the user. Start now by asking them (in one message, keep it brief):
+Plan an epic for the user. Start now by asking them (in one message, keep it brief):
 
 1. What business problem does this solve?
 2. Who are the target personas?

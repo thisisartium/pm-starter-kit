@@ -70,8 +70,8 @@ fi
 
 mkdir -p "$AGENTS_DIR"
 mkdir -p "$COMMANDS_DIR"
-mkdir -p "$SKILLS_DIR/ado-templates"
-mkdir -p "$SKILLS_DIR/acceptance-criteria"
+mkdir -p "$SKILLS_DIR"
+mkdir -p "$OMP_DIR/clients"
 
 # ── AGENTS.md ─────────────────────────────────────────────────────────────────
 
@@ -115,7 +115,8 @@ bold "✅ Installation complete."
 echo ""
 echo "Next steps:"
 echo "  1. Restart omp (exit with /exit, then run: omp)"
-echo "  2. Type / to see your PM commands: /story /feature /epic /review-story /split-story"
+echo "  2. Run /setup to create your first client config in ~/.omp/clients/"
+echo "  3. Type / to see your PM commands: /story /feature /epic /review-story /split-story"
 echo ""
 if [[ "$MODE" == "symlink" ]]; then
   echo "Your omp setup is now linked to this repo."

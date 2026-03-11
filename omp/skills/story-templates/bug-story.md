@@ -28,9 +28,9 @@ So that [I can accomplish my goal without interruption]
 **Note:** The user story format is optional for bugs. If your team prefers plain prose, use this instead:
 
 ```
-**Summary:** [One sentence describing the broken behavior]
-**Impact:** [Who is affected and how severely]
-**Frequency:** [Always / Sometimes / Rarely — under what conditions]
+Summary: [One sentence describing the broken behavior]
+Impact: [Who is affected and how severely]
+Frequency: [Always / Sometimes / Rarely — under what conditions]
 ```
 
 ---
@@ -121,7 +121,7 @@ Related PR/commit: [if known]
 ## Dependencies / Blockers [optional]
 
 ```
-Blocked by: [Story ID or issue]
+Blocked by: [Story or issue ID]
 Related to: [Story ID, bug ID, or incident]
 ```
 

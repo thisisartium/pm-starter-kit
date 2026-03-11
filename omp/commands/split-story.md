@@ -1,9 +1,9 @@
 ---
 name: split-story
-description: Split an oversized ADO user story into 2–5 smaller sprint-ready stories.
+description: Split an oversized user story into 2–5 smaller sprint-ready stories.
 ---
 
-Split the ADO user story the user pastes. If they haven't pasted one yet, ask them to.
+Split the user story the user pastes. If they haven't pasted one yet, ask them to.
 
 Once you have the story, do this:
 

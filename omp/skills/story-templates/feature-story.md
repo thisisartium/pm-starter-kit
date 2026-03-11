@@ -40,13 +40,13 @@ Write in Gherkin (Given/When/Then) or checkbox format. Be consistent within a st
 ### Gherkin Format (preferred)
 
 ```
-**Scenario: [name of scenario]**
+Scenario: [name of scenario]
   Given [starting state or precondition]
   When [user action or system event]
   Then [expected outcome]
   And [additional outcome if needed]
 
-**Scenario: [edge case or alternate path]**
+Scenario: [edge case or alternate path]
   Given ...
   When ...
   Then ...
@@ -102,14 +102,13 @@ Document decisions made, context provided by stakeholders, or assumptions used i
 
 - Figma: [link]
 - API spec: [link]
-- ADO Epic: [link]
-- ADO Feature: [link]
+- Epic: [link]
+- Feature: [link]
+- Other: [link]
 
 ---
 
 ## Suggested Tags [optional]
-
-Choose relevant tags to aid filtering and reporting in ADO:
 
 `frontend` `backend` `api` `data` `ux` `auth` `integration` `reporting` `mobile` `accessibility` `performance` `compliance`
 

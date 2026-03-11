@@ -80,8 +80,8 @@ Spikes must be time-boxed. If the answer isn't found in time, that is itself a f
 
 ```
 Time box: [X days / Y hours]
-Sprint: [Sprint number or dates]
-Owner: [Person or pair responsible]
+Sprint / Iteration: [sprint number or dates]
+Owner: [person or pair responsible]
 ```
 
 ---

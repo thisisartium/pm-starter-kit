@@ -1,9 +1,9 @@
 ---
 name: feature
-description: Write an ADO Feature work item — a PI-scoped deliverable that sits between an epic and user stories.
+description: Write a Feature work item — a PI-scoped deliverable that sits between an epic and user stories.
 ---
 
-Write an ADO Feature work item for the user. Start now by asking them (in one message, keep it brief):
+Write a Feature work item for the user. Start now by asking them (in one message, keep it brief):
 
 1. What epic does this belong to?
 2. What capability does it deliver — what can a user do when this ships?

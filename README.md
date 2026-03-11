@@ -73,14 +73,14 @@ You can also just ask in plain language and Codex may choose the right skill aut
 
 This repo ships a ready-to-use PM agent setup for **[oh-my-pi (omp)](https://github.com/can1357/oh-my-pi)** — an AI terminal assistant that works with Claude, Gemini, GPT-4o, and others.
 
-Includes agents, slash commands, and skills for writing ADO user stories, features, and epics — tuned for product managers.
+Includes agents, slash commands, and skills for writing user stories, features, and epics — works with any backlog tool (ADO, Jira, Linear, GitHub Issues, and others).
 
 **Quick install:**
 ```bash
 ./install.sh
 ```
 
-Then restart omp and type `/` to see your PM commands.
+Then restart omp, run `/setup` to configure your first client engagement, and type `/` to see your PM commands.
 
 → [Full setup guide and usage examples](omp/README.md)
 

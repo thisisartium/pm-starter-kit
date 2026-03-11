@@ -1,9 +1,9 @@
 ---
 name: story
-description: Write a sprint-ready ADO user story with acceptance criteria.
+description: Write a sprint-ready user story with acceptance criteria.
 ---
 
-Write an ADO user story for the user. Start now by asking them (in one message, keep it brief):
+Write a user story for the user. Start now by asking them (in one message, keep it brief):
 
 1. Who is the persona? (be specific — "new customer", not just "user")
 2. What do they want to do? (one action)

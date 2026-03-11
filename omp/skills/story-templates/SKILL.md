@@ -1,8 +1,8 @@
-# Skill: ADO Templates
+# Skill: Story Templates
 
 ## Purpose
 
-Provides structured templates for Azure DevOps work items. Ensures consistent formatting across all stories regardless of client, team, or project.
+Provides structured templates for agile work items. Ensures consistent formatting across all stories regardless of tool (ADO, Jira, Linear, GitHub Issues), client, team, or project.
 
 ## Templates
 
@@ -15,7 +15,7 @@ Provides structured templates for Azure DevOps work items. Ensures consistent fo
 ## Loading Behavior
 
 This skill is loaded automatically by:
-- `ado-story-writer` agent (all story creation)
+- `story-writer` agent (all story creation)
 - `/story` command
 - `/review-story` command
 - `/split-story` command
@@ -37,7 +37,7 @@ Use **bug-story** when:
 Use **spike-story** when:
 - The team doesn't know enough to estimate a feature
 - Technical research is needed before implementation can begin
-- The goal is learning, not delivering code
+- The goal is learning, not delivering working software
 - Time-boxed investigation is appropriate
 
 ## Conventions
@@ -47,6 +47,19 @@ Use **spike-story** when:
 - Checkbox ACs are an acceptable alternative — pick one per story and be consistent
 - Fields marked `[required]` must be filled before a story is considered Ready
 - Fields marked `[optional]` should be filled when known
+
+## Tool Mapping
+
+These templates are tool-agnostic. Common field name equivalents:
+
+| Template Field | ADO | Jira | Linear | GitHub Issues |
+|---|---|---|---|---|
+| Title | Title | Summary | Title | Title |
+| Description | Description | Description | Description | Body |
+| Acceptance Criteria | Acceptance Criteria | Acceptance Criteria | Description (continued) | Body (continued) |
+| Tags | Tags | Labels | Labels | Labels |
+| Story Points | Story Points | Story Points | Estimate | — |
+| Links | Related Work | Issue Links | Relations | Linked PRs |
 
 ## Customization
 

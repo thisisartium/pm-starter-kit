@@ -2,7 +2,7 @@
 
 A portable set of AI agents, slash commands, and skills for product managers using [oh-my-pi (omp)](https://github.com/can1357/oh-my-pi).
 
-Works with any LLM omp supports: Claude, Gemini, GPT-4o, and others.
+Works with any LLM omp supports: Claude, Gemini, GPT-4o, and others. Works with any backlog tool: Azure DevOps, Jira, Linear, GitHub Issues, and others.
 
 ---
 
@@ -14,8 +14,9 @@ Agents are loaded automatically based on context, or you can invoke them by name
 
 | Agent | What it does |
 |---|---|
-| `story-writer` | Writes sprint-ready ADO user stories with Gherkin acceptance criteria |
-| `feature-writer` | Writes ADO Feature work items scoped to a PI or quarter |
+| `client-setup` | Onboard a new client engagement — captures tools, methodology, and team context into `~/.omp/clients/[name].md` |
+| `story-writer` | Writes sprint-ready user stories with Gherkin acceptance criteria |
+| `feature-writer` | Writes Feature work items scoped to a PI or quarter |
 | `epic-writer` | Decomposes business goals into epics, features, and story maps |
 
 ### Slash Commands
@@ -24,6 +25,7 @@ Type `/` in omp to see these, or invoke them directly.
 
 | Command | What it does | Example |
 |---|---|---|
+| `/setup` | Onboard a new client — run once per engagement | `/setup` |
 | `/story` | Write a new user story | `/story mobile users need to reset their password` |
 | `/feature` | Write a Feature work item | `/feature add promo code support to checkout` |
 | `/epic` | Plan an epic top-down | `/epic rebuild the onboarding experience` |
@@ -36,8 +38,9 @@ Skills are reference materials loaded automatically by agents.
 
 | Skill | What it does |
 |---|---|
-| `ado-templates` | Templates for feature stories, bug stories, and spikes |
+| `story-templates` | Templates for feature stories, bug stories, and spikes |
 | `acceptance-criteria` | Patterns and anti-patterns for writing testable ACs |
+| `client-config` | Schema and template for client config files in `~/.omp/clients/` |
 
 ---
 
@@ -65,6 +68,16 @@ If you prefer a standalone copy with no repo dependency:
 ./install.sh --copy
 ```
 
+### Update
+
+Pull the latest changes and sync your `~/.omp` setup in one step:
+
+```bash
+./update.sh
+```
+
+This pulls from git, creates any new directories, adds symlinks for new files, and removes stale symlinks for deleted files. Safe to run at any time.
+
 ### Uninstall
 
 ```bash
@@ -75,9 +88,25 @@ If you prefer a standalone copy with no repo dependency:
 
 ## How to use
 
+### First time: set up a client
+
+Before writing stories, run `/setup` once per client engagement. This creates a config file in `~/.omp/clients/` that personalizes all agents for that client's tools and methodology.
+
+```
+/setup
+```
+
+omp will ask about their backlog tool (ADO, Jira, Linear, etc.), work item types, sprint methodology, team structure, and any AI restrictions — then generate a ready-to-save config file.
+
+> **Your client config lives in `~/.omp/clients/[name].md`** — inside your PM tooling directory, never in the client's project repo. You own it; it travels with you.
+
+To switch engagements, run `/setup` again or tell omp: *"Switch to [client name]."*
+
+---
+
 ### Writing a story
 
-Give omp any of these and it will ask 1–2 questions then write a complete story:
+Give omp any of these and it will ask 1–2 clarifying questions then write a complete story:
 
 ```
 /story
@@ -96,6 +125,44 @@ For spikes:
 ```
 /story --spike we need to understand the effort to integrate with Salesforce
 ```
+
+### Writing a story with code context
+
+When you're working inside a codebase, story-writer can scan relevant files to produce more technically accurate ACs — using real field names, surfacing nullable fields as edge cases, and flagging existing validation logic.
+
+**This is opt-in.** Ask for it explicitly:
+
+```
+/story --context add a bulk invite feature to the team settings page
+
+/story look at the user service and write a story for email verification
+
+/story check the checkout API then write a story for applying a promo code
+```
+
+You can also trigger it mid-conversation:
+
+```
+/story the payment form needs to support ACH transfers
+
+> Look at the existing payment models before writing the ACs
+```
+
+Or let the agent offer it — if it detects a codebase, it will ask:
+```
+I can scan the codebase for relevant types, API routes, or validation logic — want me to?
+```
+
+**When it's most useful:**
+- Refining a story for an area of the codebase you're less familiar with
+- Bug stories — understanding the affected module produces sharper reproduction and AC scenarios
+- Stories touching shared infrastructure (auth, payments, notifications) where existing contracts matter
+- Refactoring stories where ACs need to describe behavior parity, not new behavior
+
+**When to skip it:**
+- Early discovery stories before code exists
+- Pure UX / flow stories with no backend dependency
+- When you're not running omp inside the project directory
 
 ### Writing a feature
 
@@ -141,9 +208,9 @@ Identifies the split pattern, produces 2–5 right-sized child stories, and show
 
 ## Output
 
-Everything is written **in the omp chat window**. Copy-paste output directly into Azure DevOps.
+Everything is written in the omp chat window. Copy-paste output directly into your backlog tool.
 
-> **Coming soon:** direct ADO integration via the Azure DevOps MCP tool so stories can be created without leaving omp.
+> **Coming soon:** direct backlog integration via MCP tools so stories can be created without leaving omp.
 
 ---
 
@@ -153,7 +220,7 @@ To update an agent, command, or skill:
 
 1. Edit the file in `omp/agents/`, `omp/commands/`, or `omp/skills/`
 2. Commit and push to the shared branch
-3. Other PMs get the update on their next `git pull` (symlink mode) or `./install.sh` re-run (copy mode)
+3. Other PMs get the update on their next `./update.sh` (or `git pull` for content-only changes in symlink mode)
 
 ### Adding a new command
 
@@ -165,7 +232,7 @@ To update an agent, command, or skill:
    description: One-sentence description of what this command does.
    ---
    ```
-3. Write the prompt below the frontmatter — written as a direct task, not documentation
+3. Write the prompt below the frontmatter — written as a **direct task**, not documentation
 4. Commit and push
 
 ### Adding a new agent
@@ -190,21 +257,34 @@ omp/
 ├── README.md                        ← you are here
 ├── AGENTS.md                        ← global PM identity, loaded by omp automatically
 ├── agents/
+│   ├── client-setup.md              ← onboarding intake agent
 │   ├── story-writer.md
 │   ├── feature-writer.md
 │   └── epic-writer.md
 ├── commands/
+│   ├── setup.md                     ← /setup
 │   ├── story.md                     ← /story
 │   ├── feature.md                   ← /feature
 │   ├── epic.md                      ← /epic
 │   ├── review-story.md              ← /review-story
 │   └── split-story.md               ← /split-story
 └── skills/
-    ├── ado-templates/
+    ├── story-templates/
     │   ├── SKILL.md
     │   ├── feature-story.md
     │   ├── bug-story.md
     │   └── spike-story.md
-    └── acceptance-criteria/
-        └── SKILL.md
+    ├── acceptance-criteria/
+    │   └── SKILL.md
+    └── client-config/
+        └── SKILL.md                 ← schema for ~/.omp/clients/[name].md
+```
+
+After install, client configs live outside the repo:
+
+```
+~/.omp/
+└── clients/
+    ├── acme-corp.md                 ← your client configs, never in a project repo
+    └── project-falcon.md
 ```
