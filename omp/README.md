@@ -6,6 +6,65 @@ Works with any LLM omp supports: Claude, Gemini, GPT-4o, and others. Works with 
 
 ---
 
+## How portability works
+
+Your agents, commands, skills, and client configs all live on **your machine** — outside every client's project repo. You bring your full PM toolkit to each engagement without committing anything to their codebase.
+
+```
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  SHARED TEAM RESOURCE                                                │
+  │  github.com/org/pm-starter-kit                                       │
+  │                                                                      │
+  │  omp/agents/        omp/commands/        omp/skills/                 │
+  └────────────────────────────┬─────────────────────────────────────────┘
+                               │  ./install.sh  (creates symlinks)
+                               │  ./update.sh   (git pull + resync)
+                               ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  YOUR MACHINE  (~/.omp/)                           ← never in a repo │
+  │                                                                      │
+  │  ┌────────────────────────────────────────────────────────────────┐  │
+  │  │  Agents               Commands            Skills               │  │
+  │  │  story-writer         /story              story-templates      │  │
+  │  │  feature-writer       /feature            acceptance-criteria  │  │
+  │  │  epic-writer          /epic               client-config        │  │
+  │  │  client-setup         /setup                                   │  │
+  │  │  weekly-report        /weekly-report                           │  │
+  │  │                       /review-story                            │  │
+  │  │                       /split-story                             │  │
+  │  └────────────────────────────────────────────────────────────────┘  │
+  │                                                                      │
+  │  ┌────────────────────────────────────────────────────────────────┐  │
+  │  │  Client Configs  (~/.omp/clients/)                             │  │
+  │  │                                                                │  │
+  │  │  acme-corp.md              project-falcon.md                   │  │
+  │  │  tool: ADO                 tool: Jira                          │  │
+  │  │  ado_org_url: ...          framework: Kanban                   │  │
+  │  └────────────────────────────────────────────────────────────────┘  │
+  └──────────┬──────────────────────────┬──────────────────────┬─────────┘
+             │                          │                      │
+             │  omp reads from ~/.omp/  │                      │
+             ▼                          ▼                      ▼
+  ┌──────────────────┐      ┌───────────────────┐      ┌──────────────────┐
+  │  ~/acme-corp/    │      │  ~/proj-falcon/   │      │  ~/next-client/  │
+  │  (client repo)   │      │  (client repo)    │      │  (client repo)   │
+  │                  │      │                   │      │                  │
+  │  src/            │      │  app/             │      │  ...             │
+  │  package.json    │      │  ...              │      │                  │
+  │                  │      │                   │      │                  │
+  │  ✗ no omp files  │      │  ✗ no omp files   │      │  ✗ no omp files  │
+  │  ✗ not committed │      │  ✗ not committed  │      │  ✗ not committed │
+  └──────────────────┘      └───────────────────┘      └──────────────────┘
+```
+
+**The flow:**
+1. `pm-starter-kit` is your team's shared agent repo — pull updates with `./update.sh`
+2. `~/.omp/` is your personal toolkit — symlinked to the repo, lives on your machine
+3. `~/.omp/clients/` holds one config per engagement — owned by you, never committed anywhere
+4. You `cd` into any client repo and run `omp` — it reads everything from `~/.omp/`, touching nothing in the project
+
+---
+
 ## What's included
 
 ### Agents
@@ -18,6 +77,7 @@ Agents are loaded automatically based on context, or you can invoke them by name
 | `story-writer` | Writes sprint-ready user stories with Gherkin acceptance criteria |
 | `feature-writer` | Writes Feature work items scoped to a PI or quarter |
 | `epic-writer` | Decomposes business goals into epics, features, and story maps |
+| `weekly-report` | Generates a business-friendly weekly progress report from the git log |
 
 ### Slash Commands
 
@@ -31,6 +91,7 @@ Type `/` in omp to see these, or invoke them directly.
 | `/epic` | Plan an epic top-down | `/epic rebuild the onboarding experience` |
 | `/review-story` | Critique + rewrite an existing story | Paste any story after the command |
 | `/split-story` | Break an oversized story into smaller ones | Paste an 8-point story after the command |
+| `/weekly-report` | Summarize the week from your board or git log | `/weekly-report` |
 
 ### Skills
 
@@ -204,13 +265,56 @@ Returns a scorecard (Pass/Warn/Fail per dimension), a written critique, and a fu
 
 Identifies the split pattern, produces 2–5 right-sized child stories, and shows the delivery sequence.
 
+### Generating a weekly report
+
+```
+/weekly-report
+```
+
+Produces a structured weekly summary — what shipped, what was fixed, what's in progress — all translated into business-friendly language with no technical jargon.
+
+**Data sources (in priority order):**
+
+| Source | What it gives you |
+|---|---|
+| Azure CLI (`az boards`) | Work item titles, types, states — already in product language |
+| Git log | Commit-level detail, volume of changes, areas touched |
+
+When the Azure CLI is set up, the agent queries your ADO board directly for work items completed and in-progress this week — giving you a report grounded in actual story titles rather than commit messages.
+
+**Setting up board access:**
+
+See [Backlog tool integration](#backlog-tool-integration) below.
+
+**Without a board or git repo:** describe what the team worked on and omp will write the report from your input.
+
+---
+
+## Backlog tool integration
+
+Connecting omp to your ADO board gives `/weekly-report` real work item data — story titles, states, and types — instead of raw commit messages. Uses the official Microsoft **Azure CLI** (`az`), no third-party packages.
+
+### Setup is handled by `/setup`
+
+When you run `/setup` for a new ADO client, the agent handles the Azure CLI setup automatically:
+
+1. Asks for your ADO org URL and project name — saved to `~/.omp/clients/[name].md`
+2. Checks if Azure CLI is installed — if not, asks for confirmation then runs `brew install azure-cli`
+3. Installs the Azure DevOps extension if missing
+4. Runs `az login` if you're not already authenticated (opens a browser)
+5. Sets the org and project as defaults so `az boards` works without flags
+
+After setup, `/weekly-report` reads org and project from your client config and queries the board automatically.
+
+### Without a board connection
+
+`/weekly-report` falls back to the git log automatically — still useful, just based on commit activity rather than story titles.
+
 ---
 
 ## Output
 
-Everything is written in the omp chat window. Copy-paste output directly into your backlog tool.
-
-> **Coming soon:** direct backlog integration via MCP tools so stories can be created without leaving omp.
+Everything is written in the omp chat window. Copy-paste output directly into Confluence, Notion, email, or wherever your team tracks status.
 
 ---
 
@@ -260,14 +364,16 @@ omp/
 │   ├── client-setup.md              ← onboarding intake agent
 │   ├── story-writer.md
 │   ├── feature-writer.md
-│   └── epic-writer.md
+│   ├── epic-writer.md
+│   └── weekly-report.md             ← business-friendly weekly summary
 ├── commands/
 │   ├── setup.md                     ← /setup
 │   ├── story.md                     ← /story
 │   ├── feature.md                   ← /feature
 │   ├── epic.md                      ← /epic
 │   ├── review-story.md              ← /review-story
-│   └── split-story.md               ← /split-story
+│   ├── split-story.md               ← /split-story
+│   └── weekly-report.md             ← /weekly-report
 └── skills/
     ├── story-templates/
     │   ├── SKILL.md

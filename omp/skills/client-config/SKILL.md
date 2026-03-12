@@ -17,6 +17,7 @@ Client configs live in **`~/.omp/clients/[name].md`** — inside your PM tooling
 | `ai_models` | Know what models are available; respect any restrictions |
 | `data_restrictions` | Avoid PII, flag sensitive content, use approved tools only |
 | `custom_fields` | Include client-required fields in every story output |
+| `ado_org_url` + `ado_project` | Used by `/weekly-report` to query ADO board via Azure CLI |
 
 ## client.md Template
 
@@ -34,6 +35,9 @@ updated: [YYYY-MM-DD]
 ## Backlog Tool
 tool: [ADO | Jira | Linear | GitHub Issues | Trello | other]
 tool_url: [optional — base URL of the board or project]
+# ADO only — used by /weekly-report to query the board via Azure CLI
+ado_org_url: [e.g. https://dev.azure.com/contoso — leave blank if not ADO]
+ado_project: [default project name — leave blank if not ADO]
 
 ## Work Item Types
 epic: [what they call epics — e.g. "Epic", "Initiative"]

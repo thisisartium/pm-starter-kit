@@ -26,6 +26,7 @@ Invoke an agent by name to activate its specialized context:
 | `story-writer` | Write, refine, and validate user stories |
 | `feature-writer` | Write Feature work items scoped to a PI or quarter |
 | `epic-writer` | Decompose business goals into epics, features, and stories |
+| `weekly-report` | Generate a business-friendly weekly progress report from the git log |
 
 Agent definitions live in `~/.omp/agent/agents/`.
 
@@ -53,6 +54,7 @@ Slash commands are shorthand prompts that trigger structured PM workflows:
 | `/epic` | Plan an epic with decomposition into features and stories |
 | `/review-story` | Critique and improve an existing story |
 | `/split-story` | Break an oversized story into right-sized pieces |
+| `/weekly-report` | Summarize the last 7 days of git activity in business-friendly terms |
 
 Command definitions live in `~/.omp/agent/commands/`.
 
