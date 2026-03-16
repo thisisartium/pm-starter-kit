@@ -16,6 +16,11 @@
 ├── docs/
 │   ├── manual_planning_session.md
 │   └── repo_structure.md
+├── playbook/
+│   ├── README.md
+│   ├── engagement-guide.md
+│   ├── architecture.md
+│   └── cat-framework.md
 ├── codex/
 │   └── prompts/
 │       ├── 01_compile_inbox_to_plan.md
