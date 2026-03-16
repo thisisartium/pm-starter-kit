@@ -7,9 +7,11 @@ This template is designed to be forked per project.
 
 ## What this repo gives you
 
+- A **playbook** for AI PM work at Artium — how engagements run, architecture patterns, the CAT framework (`playbook/`)
 - A **two-layer planning system**
   - `planning/inbox/` (curated, immutable inputs)
   - `planning/compiled/` (authoritative plan + backlog + changelog)
+- Reusable **prompts** for common PM workflows (`codex/prompts/`)
 - A reusable **Inbox Synthesis** template for turning chats into actionable inputs
 - An `AGENTS.md` file that tells coding agents exactly how to read, compile, and execute work
 - A repeatable **manual planning session** workflow (human-in-the-loop)
